@@ -11,3 +11,14 @@ const userSchema = new Schema(
         friends: [{ type: Schema.Types.ObjectId, ref: 'User' }]
     }
 );
+
+// create a virtual for total count of friends
+userSchema.virtual('friendCount').get(function() {
+    return this.friends.length;
+});
+
+// create the User model using the UserSchema
+const User = mongoose.model('User', userSchema);
+
+// export the User model
+module.exports = User;
