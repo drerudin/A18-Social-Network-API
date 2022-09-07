@@ -37,13 +37,13 @@ router.get('/:id', (req, res) => {
         });
 });
 
-// create thought
-router.post('/', (req, res) => {
+// create thought by user id
+router.post('/:userId', (req, res) => {
     Thought.create(req.body)
-        .then(dbThoughtData => {
+        .then(({ _id }) => {
             return User.findOneAndUpdate(
-                { _id: req.body.userId },
-                { $push: { thoughts: dbThoughtData._id } },
+                { _id: req.params.userId },
+                { $push: { thoughts: _id } },
                 { new: true }
             );
         })
@@ -54,7 +54,7 @@ router.post('/', (req, res) => {
             }
             res.json(dbUserData);
         })
-        .catch(err => res.status(400).json(err));
+        .catch(err => res.json(err));
 });
 
 // update thought by id
@@ -94,7 +94,7 @@ router.delete('/:id', (req, res) => {
         .catch(err => res.status(400).json(err));
 });
 
-// add reaction
+// create reaction
 router.post('/:thoughtId/reactions', (req, res) => {
     Thought.findOneAndUpdate(
         { _id: req.params.thoughtId },
@@ -108,10 +108,31 @@ router.post('/:thoughtId/reactions', (req, res) => {
             }
             res.json(dbThoughtData);
         })
-        .catch(err => res.status(400).json(err));
+        .catch(err => res.json(err));
 });
 
-// delete reaction
+// get all reactions
+router.get('/:thoughtId/reactions', (req, res) => {
+    Thought.findOne({ _id: req.params.thoughtId })
+        .populate({
+            path: 'reactions',
+            select: '-__v'
+        })
+        .select('-__v')
+        .then(dbThoughtData => {
+            if (!dbThoughtData) {
+                res.status(404).json({ message: 'No thought found with this id!' });
+                return;
+            }
+            res.json(dbThoughtData);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(400).json(err);
+        });
+});
+
+// delete reaction by id
 router.delete('/:thoughtId/reactions/:reactionId', (req, res) => {
     Thought.findOneAndUpdate(
         { _id: req.params.thoughtId },
@@ -120,6 +141,7 @@ router.delete('/:thoughtId/reactions/:reactionId', (req, res) => {
     )
         .then(dbThoughtData => res.json(dbThoughtData))
         .catch(err => res.json(err));
-});     
+});
+
 
 module.exports = router;
