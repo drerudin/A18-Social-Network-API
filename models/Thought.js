@@ -1,5 +1,5 @@
 // model using mongoose
-const { Schema, model } = require('mongoose');
+const { Schema, model, Types } = require('mongoose');
 const dateFormat = require('../utils/dateFormat');
 
 // create a schema for Reaction
