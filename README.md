@@ -22,3 +22,8 @@ https://drive.google.com/file/d/1f7-bGgGaqUVmiNAb1Wn6TjygIZbvAQHx/view
 
 ## Screenshots
 
+![image](https://user-images.githubusercontent.com/99576524/188797544-a7c17f4b-0de8-4099-b447-4c67c7759705.png)
+
+![image](https://user-images.githubusercontent.com/99576524/188797604-4daf768d-6f54-4803-b665-ad5eb46fe36a.png)
+
+![image](https://user-images.githubusercontent.com/99576524/188797654-22a238ef-72da-4f04-b4aa-a56142b76bdd.png)
